@@ -1,0 +1,39 @@
+# Version de docker 
+
+version: '3.1'
+
+# Déclaration des services
+
+services:
+  # Serveur web et PHP
+  apache_php:
+      image: 'php:5.5.25-apache'
+      ports:
+        - '8080:80'
+      depends_on:
+        - db # Nom du container de db qui sera crée 
+      networks:
+        - -network_dev 
+      volumes:
+        - './src:/var/www/html'
+  # Container de la bdd
+  db:
+    image: 'mariadb:10.7'
+    ports:
+      - '3306:3306'
+    networks:
+      - -network_dev 
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MARIADB_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=formation
+      - MARIADB_DATABASE=formation
+      - MYSQL_USER=admin
+      - MARIADB_USER=admin
+      - MYSQL_PASSWORD=admin123
+      - MARIADB_PASSWORD=admin123
+# Réseau interne aux containers docker
+
+networks:
+  -network_dev:
+    driver: bridge
