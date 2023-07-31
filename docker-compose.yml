@@ -7,7 +7,7 @@ version: '3.1'
 services:
   # Serveur web et PHP
   apache_php:
-      image: 'php:5.5.25-apache'
+      image: 'php:apache'
       ports:
         - '8080:80'
       depends_on:
@@ -33,7 +33,14 @@ services:
       - MYSQL_PASSWORD=admin123
       - MARIADB_PASSWORD=admin123
 # Réseau interne aux containers docker
-
+  adminer:
+    image: adminer
+    container_name: dev_adminer
+    restart: always
+    ports:
+      - '8280:8080'
+    networks:
+      - -network_dev
 networks:
   -network_dev:
     driver: bridge
